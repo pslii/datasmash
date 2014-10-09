@@ -1,7 +1,23 @@
 __author__ = 'pslii'
 import numpy as np
-import matplotlib.pyplot as plt
 
+def entropy_quantization(data, n_states):
+    """
+    Generates quantization based on equal entropy scheme.
+    :param data:
+    :param n_states:
+    :return:
+    """
+    percentages = np.linspace(0, 100, n_states+1)
+    splits = np.percentile(data, list(percentages))
+
+    quantize = np.empty_like(data)
+    for i in range(n_states):
+        subset = np.where((data >= splits[i]) & (data <= splits[i+1]))[0]
+        quantize[subset] = i
+    return quantize
+
+import matplotlib.pyplot as plt
 class datasmash:
     """
     Data Smashing algorithm
